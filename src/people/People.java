@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class People {
 
 
-    public static HashMap<Integer, People> allPeople=new HashMap<>();
     static int count=0;  /// it is total people who have registered not total current people
     private int id;
     private String name;
@@ -66,13 +65,13 @@ public class People {
     }
 
     public boolean deletePeople(int id){
-        return People.allPeople.remove(id)!=null;
+        return Employee.allEmployee.remove(id)!=null;
     }
     public int totalCurrentPeople(){
-        return People.allPeople.size();
+        return Employee.allEmployee.size();
     }
     public void removePeople(int id){
-        People people=People.allPeople.get(id);
+        People people=Employee.allEmployee.get(id);
         if(people==null) return;
         if(people.getClass().toString().equals(Manager.class.toString())){
             CEO.getCEO().getAllManager().remove(id);
@@ -82,7 +81,7 @@ public class People {
         }
 
 
-        People.allPeople.remove(id);
+        Employee.allEmployee.remove(id);
     }
 
 

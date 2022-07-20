@@ -20,13 +20,13 @@ public class Manager extends Employee {
     }
 
     public boolean addFTEmployee(FTEmployee ftEmployee){
-        People.allPeople.put(ftEmployee.getId(), ftEmployee);
+        Employee.allEmployee.put(ftEmployee.getId(), ftEmployee);
         fTEmployeeUnderThisManager.put(ftEmployee.getId(), ftEmployee);
         return true;
     }
 
     public boolean addIntern(Intern intern){
-        People.allPeople.put(intern.getId(), intern);
+        Employee.allEmployee.put(intern.getId(), intern);
         internUnderThisManager.put(intern.getId(), intern);
         return true;
     }
@@ -52,7 +52,7 @@ public class Manager extends Employee {
 
     public    boolean deleteFTEmployee(int id){
         if(fTEmployeeUnderThisManager.get(id)!=null){
-            return fTEmployeeUnderThisManager.remove(id)!=null && People.allPeople.remove(id)!=null;
+            return fTEmployeeUnderThisManager.remove(id)!=null && Employee.allEmployee.remove(id)!=null;
         }
 
         else return false;
@@ -60,7 +60,7 @@ public class Manager extends Employee {
     public  boolean deleteIntern(int id){
         ///TODO: to decide the return type of this function
         if(internUnderThisManager.get(id)!=null){
-            return internUnderThisManager.remove(id)!=null && People.allPeople.remove(id)!=null;
+            return internUnderThisManager.remove(id)!=null && Employee.allEmployee.remove(id)!=null;
         }
 
         else return false;

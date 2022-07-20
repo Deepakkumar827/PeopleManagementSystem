@@ -1,11 +1,12 @@
 package controller;
 
-import people.FTEmployee;
-import people.Intern;
-import people.Manager;
-import people.People;
+import people.*;
 
 import javax.swing.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
@@ -68,6 +69,24 @@ public final class Util {
     public static void printEmployeeDetailUsingID(People people){
         System.out.println("ID: " + people.getId()+ " name: " + people.getName());
 
+    }
+
+    public static void printEmployeeAllAttendance(Hashtable<LocalDate, ArrayList<InOutTime>> inOutHistory){
+        for(Map.Entry<LocalDate, ArrayList<InOutTime>> inOutEntry: inOutHistory.entrySet()){
+            System.out.println("Date: "+ inOutEntry.getKey().toString());
+            for(InOutTime inOutTime: inOutEntry.getValue()){
+                ///TODO: may give null pointer exception on null value of outTime;
+                if(inOutTime.outTime==null){
+                    System.out.print("\tInTime: " + inOutTime.inTime+ " outTime: "+ " null "+" timeSpend: "+ " null\n");
+
+                }
+                else {
+                    System.out.print("\tInTime: " + inOutTime.inTime+ " outTime: "+ inOutTime.outTime+" timeSpend: "+ ChronoUnit.MINUTES.between(inOutTime.inTime, inOutTime.outTime)+"\n");
+
+                }
+            }
+            System.out.println();
+        }
     }
 
 

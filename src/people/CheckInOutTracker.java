@@ -5,19 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Locale;
-
-
-class InOutTime{
-    LocalDateTime inTime;
-    LocalDateTime outTime;
-    InOutTime(LocalDateTime inTime){
-        this.inTime=inTime;
-    }
-}
+import java.util.*;
 
 
 public interface CheckInOutTracker {
@@ -35,8 +23,7 @@ public interface CheckInOutTracker {
     public int getTimeSpendOnADay(LocalDateTime date);
     public int getTotalTimeSpend(LocalDateTime start, LocalDateTime end);
     public int getTotalTimeSpend();
-    public Hashtable<LocalDate, Integer> getTotalTimeSpendInHashTable();
-
+    Hashtable<LocalDate, ArrayList<InOutTime>> getInOutHistory();
 
 }
 

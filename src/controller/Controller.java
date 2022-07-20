@@ -2,6 +2,9 @@ package controller;
 
 import people.*;
 
+import javax.swing.*;
+import java.time.LocalDateTime;
+import java.time.chrono.MinguoDate;
 import java.util.Scanner;
 
 
@@ -20,6 +23,7 @@ public class Controller{
             int option=scanner.nextInt();
             switch (option){
                 case 1:
+                    System.out.println("              <<<<ATTENDANCE MENU>>>>");
                     attendanceMenu();
                     break;
                 case 2:
@@ -58,7 +62,72 @@ public class Controller{
     }
 
     private void attendanceMenu(){
+        while (true){
+            System.out.println("[enter 0. exit 1. checkIn 2. checkout 3. checkAllTimeSpend]  and ID");
+            System.out.print("Option: ");
+            int option=scanner.nextInt();
 
+            if(option==0) return;
+
+
+
+            System.out.print("\nID: ");
+            int iD=scanner.nextInt();
+            int a=0;
+
+            if(!Employee.allEmployee.containsKey(iD)) {
+                System.out.println("\nuser doesn't exist");
+                continue;
+            }
+            Employee currentEmployee=Employee.allEmployee.get(iD);
+
+            switch (option){
+                case 1:
+                    System.out.println("enter date time in yyyy-mm-ddThh:mm:ss format");
+                    String inDateTimeString=scanner.next();
+
+                    ////TODO: use try catch
+                    LocalDateTime inDateTime=LocalDateTime.parse(inDateTimeString);
+                     if(currentEmployee.checkIn(inDateTime)){
+                        System.out.println("success");
+                    }
+                    else{
+                        System.out.println("failed");
+                    }
+                    break;
+                case 2:
+                    System.out.println("enter date time in yyyy-mm-ddThh:mm:ss format");
+                    String outDateTimeString=scanner.next();
+                    LocalDateTime outDateTime=LocalDateTime.parse(outDateTimeString);
+                    if(currentEmployee.checkOut(outDateTime)){
+                        System.out.println("success");
+                    }
+                    else{
+                        System.out.println("failed");
+                    }
+                    break;
+                case 3:
+                    if(currentEmployee.getInOutHistory().size()==0){
+                        System.out.println("no data available");
+                        break;
+                    }
+                    System.out.println("checkin out summery of employee ID: "+ currentEmployee.getId()+" employee name: " + currentEmployee.getName()+" are: ");
+                    Util.printEmployeeAllAttendance(currentEmployee.getInOutHistory());
+                    System.out.println();
+
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+
+            }
+
+
+            System.out.println();
+        }
     }
     private void cEOMenu(){
         while (true){
@@ -67,10 +136,11 @@ public class Controller{
                     "2. show all manager details" +
                     "3. show all fTEmployee details" +
                     "4. show all intern details" +
-                    "5. show all people details" +
-                    "6. assign ceo" +
-                    "7. add new manager" +
-                    "8. remove manager");
+                    "5. show all people details " +
+                    "6 check people by ID " +
+                    "7. assign ceo" +
+                    "8. add new manager" +
+                    "9. remove manager");
 
             int option=scanner.nextInt();
             if(option==0) return;
@@ -121,8 +191,20 @@ public class Controller{
                     Util.printAllEmployee(CEO.getCEO().getAllManager());
                     break;
 
-
                 case 6:
+                    System.out.print("Enter ID: ");
+                    int currentID=scanner.nextInt();
+                    if(Employee.allEmployee.containsKey(currentID)){
+                        System.out.println();
+                        Util.printEmployeeDetailUsingID(Employee.allEmployee.get(currentID));
+
+                    }
+
+                    else {
+                        System.out.println("\ndoesn't exist");
+                    }
+                    break;
+                case 7:
                     if(CEO.isCEOAssigned()){
                         System.out.println("CEO is already assigned");
                         break;
@@ -132,10 +214,13 @@ public class Controller{
                     CEO.createCEO(ceoDetails[0], ceoDetails[1], ceoDetails[2], ceoDetails[3]);
                     System.out.println("CEO is assigned");
                     break;
-                case 7:
+                case 8:
                     String [] managerDetails=Util.getPeopleDetails();
                     Manager manager=CEO.createManager(managerDetails[0], managerDetails[1], managerDetails[2], managerDetails[3]);
                     System.out.println("manager created with id= " + manager.getId());
+                    break;
+
+                case 9:
                     break;
 
                 default:
@@ -176,8 +261,10 @@ public class Controller{
                    break;
 
                 case 2:
+                    System.out.print("Enter ID: ");
                     int currentID=scanner.nextInt();
-                    if(manager.internUnderThisManager.contains(currentID)){
+                    if(manager.internUnderThisManager.containsKey(currentID)){
+                        System.out.println();
                         Util.printEmployeeDetailUsingID(manager.internUnderThisManager.get(currentID));
                     }
                     else if(manager.fTEmployeeUnderThisManager.contains(currentID)){
@@ -187,6 +274,9 @@ public class Controller{
                         System.out.println("either user doesn't exist or not comes under you");
                     }
                     break;
+
+
+
 
                 case 3:
                     String [] details=Util.getPeopleDetails();
