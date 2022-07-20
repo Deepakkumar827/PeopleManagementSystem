@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class CEO extends People{
     public static CEO currentCEO;
-    ///since there will be only one CEO, so we can use static field;
+    ///since there will be only one CEO, so we can use static field
     public  static HashMap<Integer, Manager> allManager=new HashMap<>();
 
     public CEO(String name, String gender, String  DOB,String address) {
