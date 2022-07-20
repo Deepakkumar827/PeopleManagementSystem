@@ -1,0 +1,3 @@
+Employee==intern + full time employee under manager
+
+ceo-> manager-> intern+full time;
