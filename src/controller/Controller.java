@@ -2,9 +2,8 @@ package controller;
 
 import people.*;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
+
 
 public class Controller{
     Scanner scanner=new Scanner(System.in);
@@ -13,25 +12,40 @@ public class Controller{
         while (true){
             System.out.println("------------------------");
             System.out.println("Main Menu");
-            System.out.println("enter\n 0. exit\n 1. ceo menu" +
-                    "2. manager menu" +
-                    "3. full time employee menu" +
-                    "4. intern menu");
+            System.out.println("enter\n 0. exit 1. Attendance Menu " +
+                    " 2. ceo menu " +
+                    " 3. manager menu " +
+                    " 4. full time employee menu " +
+                    " 5. intern menu ");
             int option=scanner.nextInt();
             switch (option){
                 case 1:
+                    attendanceMenu();
+                    break;
+                case 2:
                     cEOMenu();
                     break;
 //                case 2:
 //                    cEOMenu();
 //                    break;
-                case 2:
-                    managerMenu();
-                    break;
                 case 3:
-                    fTEmployeeMenu();
+                    if(CEO.getCEO()==null){
+                        System.out.println("CEO doesn't assigned, so manager can't exist");
+                        break;
+                    }
+                    System.out.println("put manager ID");
+                    int key=scanner.nextInt();
+                    if(CEO.getCEO().getAllManager().containsKey(key)){
+                        managerMenu(CEO.getCEO().getAllManager().get(key));
+                     }
+                    else{
+                        System.out.println("manager doesn't exist ");
+                     }
                     break;
                 case 4:
+                    fTEmployeeMenu();
+                    break;
+                case 5:
                     internMenu();
                 default:
                     break;
@@ -42,7 +56,11 @@ public class Controller{
 
         }
     }
-    public void cEOMenu(){
+
+    private void attendanceMenu(){
+
+    }
+    private void cEOMenu(){
         while (true){
             System.out.println("enter\n 0. back" +
                     "1. show ceo details" +
@@ -66,45 +84,41 @@ public class Controller{
                     }
                     break;
                 case 2:
-                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
-                    for(Map.Entry<Integer, Manager> managerEntry: CEO.allManager.entrySet()){
-                        System.out.println("Manager ID: "+ managerEntry.getValue().getId()+ " Manager Name: " + managerEntry.getValue().getName());
+                    if(CEO.getCEO()==null){
+                        System.out.println("without CEO doesn't manager doesn't exist");
+                        break;
                     }
+                    if(CEO.getCEO().getAllManager().size()==0){
+
+                        System.out.println("no manager is assigned ");
+                        break;
+                    }
+                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
+                    Util.printAllManager(CEO.getCEO().getAllManager());
                     break;
                 case 3:
-                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
-                    for(Map.Entry<Integer, Manager> managerEntry: CEO.allManager.entrySet()){
-                        Manager currentManager=managerEntry.getValue();
-                        System.out.println("Manager ID: "+ currentManager.getId()+ " Manager Name: " + currentManager.getName());
-                        for(Map.Entry<Integer, FTEmployee> ftEmployeeEntry: currentManager.fTEmployeeUnderThisManager.entrySet()){
-                            System.out.println("FTEmployee ID: "+ ftEmployeeEntry.getValue().getId()+ " FTEmployee Name: " + ftEmployeeEntry.getValue().getName());
-                        }
+                    if(CEO.getCEO().getAllManager().size()==0){
+                        System.out.println("no manager FTEmployee is assigned ");
+                        break;
                     }
+                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
+                    Util.printAllFTEmployee(CEO.getCEO().getAllManager());
                     break;
                 case 4:
-                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
-                    for(Map.Entry<Integer, Manager> managerEntry: CEO.allManager.entrySet()){
-                        Manager currentManager=managerEntry.getValue();
-                        System.out.println("Manager ID: "+ currentManager.getId()+ " Manager Name: " + currentManager.getName());
-
-                        for(Map.Entry<Integer, Intern> internEntry: currentManager.internUnderThisManager.entrySet()){
-                            System.out.println("Intern ID: "+ internEntry.getValue().getId()+ " Intern Name: " + internEntry.getValue().getName());
-                        }
+                    if(CEO.getCEO().getAllManager().size()==0){
+                        System.out.println("no manager and Intern is assigned ");
+                        break;
                     }
+                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
+                    Util.printAllIntern(CEO.getCEO().getAllManager());
                     break;
                 case 5:
-                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
-                    for(Map.Entry<Integer, Manager> managerEntry: CEO.allManager.entrySet()){
-                        Manager currentManager=managerEntry.getValue();
-                        System.out.println("Manager ID: "+ currentManager.getId()+ " Manager Name: " + currentManager.getName());
-                        for(Map.Entry<Integer, FTEmployee> ftEmployeeEntry: currentManager.fTEmployeeUnderThisManager.entrySet()){
-                            System.out.println("FTEmployee ID: "+ ftEmployeeEntry.getValue().getId()+ " FTEmployee Name: " + ftEmployeeEntry.getValue().getName());
-                        }
-                        System.out.println();
-                        for(Map.Entry<Integer, Intern> internEntry: currentManager.internUnderThisManager.entrySet()){
-                            System.out.println("Intern ID: "+ internEntry.getValue().getId()+ " Intern Name: " + internEntry.getValue().getName());
-                        }
+                    if(CEO.getCEO().getAllManager().size()==0){
+                        System.out.println("no manager and other employees are assigned ");
+                        break;
                     }
+                    System.out.println("ceo id: "+ CEO.currentCEO.getId()+ " name : "+ CEO.currentCEO.getName());
+                    Util.printAllEmployee(CEO.getCEO().getAllManager());
                     break;
 
 
@@ -114,14 +128,12 @@ public class Controller{
                         break;
                     }
                     System.out.println("assigning CEO");
-                    String [] ceoDetails=new String[4];
-                    getPeopleDetails(ceoDetails);
+                    String [] ceoDetails=Util.getPeopleDetails();
                     CEO.createCEO(ceoDetails[0], ceoDetails[1], ceoDetails[2], ceoDetails[3]);
                     System.out.println("CEO is assigned");
                     break;
                 case 7:
-                    String [] managerDetails=new String[4];
-                    getPeopleDetails(managerDetails);
+                    String [] managerDetails=Util.getPeopleDetails();
                     Manager manager=CEO.createManager(managerDetails[0], managerDetails[1], managerDetails[2], managerDetails[3]);
                     System.out.println("manager created with id= " + manager.getId());
                     break;
@@ -134,34 +146,79 @@ public class Controller{
 
             }
             System.out.println();
-            System.out.println("================================");
 
 
         }
 
     }
  
-    public void managerMenu(){
+    private void managerMenu(Manager manager){
+        Util.printEmployeeDetailUsingID(manager);
         while (true){
-            System.out.println("Enter \n 0. exit\n 1. ");
+            System.out.println("Enter \n 0. exit " +
+                    " 1. view employee under this manager" +
+                    " 2. view employee using id" +
+                    " 3. add full time employee " +
+                    " 4. add intern " +
+                    " 5. edit employee(not available)" +
+                    " 6. delete employee" +
+                    " 7. see attendance using id" +
+                    " 8. my information");
+
+            int option=scanner.nextInt();
+            if(option==0) return;
+            switch (option){
+                case 0:
+                    return;
+                case 1:
+                   Util.printAllFTEmployee(manager);
+                   Util.printAllIntern(manager);
+                   break;
+
+                case 2:
+                    int currentID=scanner.nextInt();
+                    if(manager.internUnderThisManager.contains(currentID)){
+                        Util.printEmployeeDetailUsingID(manager.internUnderThisManager.get(currentID));
+                    }
+                    else if(manager.fTEmployeeUnderThisManager.contains(currentID)){
+                        Util.printEmployeeDetailUsingID(manager.fTEmployeeUnderThisManager.get(currentID));
+                    }
+                    else {
+                        System.out.println("either user doesn't exist or not comes under you");
+                    }
+                    break;
+
+                case 3:
+                    String [] details=Util.getPeopleDetails();
+                    if(manager.addFTEmployee(details[0], details[1], details[2], details[3])){
+                        System.out.println("succeed");
+                    }
+                    else {
+                        System.out.println("failed");
+                    }
+                    break;
+
+                case 4:
+                    String [] details2=Util.getPeopleDetails();
+
+                    if(manager.addIntern(details2[0], details2[1], details2[2], details2[3])){
+                        System.out.println("succeed");
+                    }
+                    else {
+                        System.out.println("failed");
+                    }
+                    break;
+                default:
+                    System.out.println("invalid input");
+                    break;
+            }
         }
     }
-    public void fTEmployeeMenu(){
+    private void fTEmployeeMenu(){
 
     }
-    public void internMenu(){
+    private void internMenu(){
 
-    }
-    public void getPeopleDetails(String [] details){
-        System.out.println("enter name ");
-        details[0]=scanner.nextLine();
-        System.out.println("enter gender Male or Female ");
-        details[1]=scanner.nextLine();
-        System.out.println("enter data of birth ");
-        details[2]=scanner.nextLine();
-        System.out.println("enter address");
-        details[3]=scanner.nextLine();
-        return;
     }
 
 

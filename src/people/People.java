@@ -75,7 +75,7 @@ public class People {
         People people=People.allPeople.get(id);
         if(people==null) return;
         if(people.getClass().toString().equals(Manager.class.toString())){
-            CEO.allManager.remove(id);
+            CEO.getCEO().getAllManager().remove(id);
         }
         else if(people.getClass().toString().equals(Intern.class.toString())){
 

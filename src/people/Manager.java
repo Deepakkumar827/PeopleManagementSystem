@@ -51,8 +51,6 @@ public class Manager extends Employee {
     }*/
 
     public    boolean deleteFTEmployee(int id){
-        ///TODO: to decide the return type of this function
-        /////return false if id is not present, else it will be deleted and returned true;
         if(fTEmployeeUnderThisManager.get(id)!=null){
             return fTEmployeeUnderThisManager.remove(id)!=null && People.allPeople.remove(id)!=null;
         }
@@ -61,7 +59,6 @@ public class Manager extends Employee {
     }
     public  boolean deleteIntern(int id){
         ///TODO: to decide the return type of this function
-        /////return false if id is not present, else it will be deleted and returned true;
         if(internUnderThisManager.get(id)!=null){
             return internUnderThisManager.remove(id)!=null && People.allPeople.remove(id)!=null;
         }

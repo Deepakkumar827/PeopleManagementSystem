@@ -1,15 +1,20 @@
 package people;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Locale;
 
 
 class InOutTime{
-    Date inTime;
-    Date outTime;
-    InOutTime(Date inTime){
+    LocalDateTime inTime;
+    LocalDateTime outTime;
+    InOutTime(LocalDateTime inTime){
         this.inTime=inTime;
     }
 }
@@ -25,11 +30,12 @@ public interface CheckInOutTracker {
 //            this.inTime=inTime;
 //        }
 //    }
-    public boolean checkIn(Date inTime);
-    public boolean checkOut(Date outTime);
-    public boolean getTimeSpendOnADay(Date date);
-    public boolean getTotalTimeSpend(Date start, Date end);
-    public boolean getTotalTimeSpend();
+    public boolean checkIn(LocalDateTime inTime);
+    public boolean checkOut(LocalDateTime outTime);
+    public int getTimeSpendOnADay(LocalDateTime date);
+    public int getTotalTimeSpend(LocalDateTime start, LocalDateTime end);
+    public int getTotalTimeSpend();
+    public Hashtable<LocalDate, Integer> getTotalTimeSpendInHashTable();
 
 
 }

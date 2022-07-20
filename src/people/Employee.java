@@ -1,12 +1,22 @@
 package people;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
+
+//NavigableMap<String,Integer> map = new TreeMap<String, Integer>();
+//// add some entries
+//        Entry<String, Integer> lastEntry = map.lastEntry();
+
+
 public class Employee extends People implements CheckInOutTracker {
-    Hashtable<Date, LinkedList<InOutTime>> checkInOutHistory=new Hashtable<>();
-    int totalTimeSpend=0;
+    private Hashtable<LocalDate, ArrayList<InOutTime>> inOutHistory=new Hashtable<>();
+    Hashtable<LocalDate, Integer> totalTimeSpend=new Hashtable<>(); ///in minutes
 
     public Employee(String name, String gender, String DOB, String address) {
         super(name, gender, DOB, address);
@@ -16,27 +26,64 @@ public class Employee extends People implements CheckInOutTracker {
 
 
     @Override
-    public boolean checkIn(Date inTime) {
-        return false;
+    public boolean checkIn(LocalDateTime inTime) {
+        if(inOutHistory.get(inTime.toLocalDate())==null){
+            inOutHistory.put(inTime.toLocalDate(), new ArrayList<InOutTime>());
+            inOutHistory.get(inTime.toLocalDate()).add(new InOutTime(inTime));
+            return true;
+        }
+
+        ///TODO: what if user forgot to checkout in a particular day??
+        InOutTime lastInOutTime=inOutHistory.get(inTime.toLocalDate()).get(inOutHistory.get(inTime.toLocalDate()).size()-1);
+        if(lastInOutTime.outTime!=null){
+            inOutHistory.get(inTime.toLocalDate()).add(new InOutTime(inTime));
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
     @Override
-    public boolean checkOut(Date outTime) {
-        return false;
+    public boolean checkOut(LocalDateTime outTime) {
+        if(inOutHistory.get(outTime.toLocalDate())==null){
+            return false;
+        }
+        InOutTime lastInOutTime=inOutHistory.get(outTime.toLocalDate()).get(inOutHistory.get(outTime.toLocalDate()).size()-1);
+
+        if(lastInOutTime.outTime== null || lastInOutTime.inTime.isBefore(outTime)){
+            return false;
+        }
+        else {
+            lastInOutTime.outTime=outTime;
+            int last=0;
+            if(totalTimeSpend.get(outTime.toLocalDate())!=null){
+                last=totalTimeSpend.get(outTime.toLocalDate());
+            }
+            last+= ChronoUnit.MINUTES.between(lastInOutTime.inTime, lastInOutTime.outTime);
+            totalTimeSpend.put(outTime.toLocalDate(), last);
+            return true;
+        }
     }
 
     @Override
-    public boolean getTimeSpendOnADay(Date date) {
-        return false;
+    public int getTimeSpendOnADay(LocalDateTime date) {
+        return 0;
     }
 
     @Override
-    public boolean getTotalTimeSpend(Date start, Date end) {
-        return false;
+    public int getTotalTimeSpend(LocalDateTime start, LocalDateTime end) {
+        return 0;
     }
 
     @Override
-    public boolean getTotalTimeSpend() {
-        return false;
+    public int getTotalTimeSpend() {
+        return 0;
+    }
+
+    @Override
+    public Hashtable<LocalDate, Integer> getTotalTimeSpendInHashTable() {
+        return null;
     }
 }
