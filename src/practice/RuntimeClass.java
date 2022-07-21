@@ -15,7 +15,7 @@ public class RuntimeClass {
         while (true){
             Process process=runtime.exec("notepad.exe");
             Scanner scanner=new Scanner(System.in);
-//            scanner.nextLine();
+            scanner.nextLine();
             System.out.println(++count);
 //            process.destroy();
         }

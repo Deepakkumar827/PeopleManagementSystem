@@ -20,12 +20,14 @@ public class Manager extends Employee {
     }
 
     public boolean addFTEmployee(FTEmployee ftEmployee){
+        ftEmployee.directReportingPerson =this.getName();
         Employee.allEmployee.put(ftEmployee.getId(), ftEmployee);
         fTEmployeeUnderThisManager.put(ftEmployee.getId(), ftEmployee);
         return true;
     }
 
     public boolean addIntern(Intern intern){
+        intern.directReportingPerson =this.getName();
         Employee.allEmployee.put(intern.getId(), intern);
         internUnderThisManager.put(intern.getId(), intern);
         return true;

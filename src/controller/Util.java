@@ -67,7 +67,7 @@ public final class Util {
         System.out.println();
     }
     public static void printEmployeeDetailUsingID(People people){
-        System.out.println("ID: " + people.getId()+ " name: " + people.getName());
+        System.out.println("ID: " + people.getId()+ " name: " + people.getName()+ "  Direct Reporting Person: "+ ((Employee)people).getDirectReportingPerson());
 
     }
 

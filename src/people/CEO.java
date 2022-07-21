@@ -1,6 +1,5 @@
 package people;
 
-import java.util.HashMap;
 import java.util.Hashtable;
 
 ////Note:
@@ -19,6 +18,7 @@ public class CEO extends Employee{
     public static boolean createCEO(String name, String gender, String DOB, String address){
         if(CEO.currentCEO==null){
             CEO.currentCEO=new CEO(name, gender, DOB, address);
+            CEO.currentCEO.directReportingPerson ="None";
             Employee.allEmployee.put(CEO.getCEO().getId(), CEO.getCEO());
             return true;
         }
@@ -40,6 +40,7 @@ public class CEO extends Employee{
         return createManager(new Manager(name, gender, DOB, address));
     }
     public static Manager createManager(Manager manager){
+        manager.directReportingPerson = getCEO().getName();
         Employee.allEmployee.put(manager.getId(), manager);
         getCEO().allManager.put(manager.getId(), manager);
         return manager;

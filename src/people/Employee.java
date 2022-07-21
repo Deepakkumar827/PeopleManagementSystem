@@ -12,7 +12,8 @@ import java.util.*;
 
 
 public class Employee extends People implements CheckInOutTracker {
-        public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
+    String directReportingPerson =null;
+    public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
 
     private Hashtable<LocalDate, ArrayList<InOutTime>> inOutHistory = new Hashtable<>();
 
@@ -86,6 +87,9 @@ public class Employee extends People implements CheckInOutTracker {
     @Override
     public Hashtable<LocalDate, ArrayList<InOutTime>> getInOutHistory() {
         return inOutHistory;
+    }
+    public String getDirectReportingPerson(){
+        return this.directReportingPerson;
     }
 }
 
