@@ -25,6 +25,7 @@ public class Employee extends People implements CheckInOutTracker {
 
     @Override
     public boolean checkIn(LocalDateTime inTime) {
+
         if (inOutHistory.get(inTime.toLocalDate()) == null) {
             inOutHistory.put(inTime.toLocalDate(), new ArrayList<InOutTime>());
             inOutHistory.get(inTime.toLocalDate()).add(new InOutTime(inTime));
@@ -49,13 +50,13 @@ public class Employee extends People implements CheckInOutTracker {
         }
         InOutTime lastInOutTime = inOutHistory.get(outTime.toLocalDate()).get(inOutHistory.get(outTime.toLocalDate()).size() - 1);
 
-        if (lastInOutTime.outTime != null || lastInOutTime.inTime.isBefore(outTime)) {
+        if (lastInOutTime.outTime != null || lastInOutTime.inTime.isAfter(outTime)) {
             return false;
         } else {
             lastInOutTime.outTime = outTime;
-            if(ChronoUnit.MINUTES.between(lastInOutTime.inTime, lastInOutTime.outTime)<=0){
+            /*if(ChronoUnit.MINUTES.between(lastInOutTime.inTime, lastInOutTime.outTime)<=0){
                 return false;
-            }
+            }*/
             int last = 0;
             if (totalTimeSpend.get(outTime.toLocalDate()) != null) {
                 last = totalTimeSpend.get(outTime.toLocalDate());

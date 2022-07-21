@@ -11,7 +11,7 @@ public class CEO extends Employee{
     ///since there will be only one CEO, so we can use static field
     private Hashtable<Integer, Manager> allManager=new Hashtable<>();
 
-    public CEO(String name, String gender, String  DOB,String address) {
+    private CEO(String name, String gender, String  DOB,String address) {
         super(name, gender, DOB, address);
 
     }
@@ -32,6 +32,9 @@ public class CEO extends Employee{
     }
     public Hashtable<Integer, Manager> getAllManager(){
         return getCEO().allManager;
+    }
+    public Manager getManager(int id){
+        return getCEO().allManager.get(id);
     }
     public static Manager createManager(String name, String gender, String DOB, String address){
         return createManager(new Manager(name, gender, DOB, address));
