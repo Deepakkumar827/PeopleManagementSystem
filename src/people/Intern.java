@@ -1,10 +1,9 @@
 package people;
 
 public class Intern extends Employee{
-    int managerId;
-    protected Intern(String name, String gender, String DOB, String address, int managerId) {
+     protected Intern(String name, String gender, String DOB, String address) {
         super(name, gender, DOB, address);
-        this.managerId=managerId;
+
     }
 
 //    public Employee(String name, String gender, String DOB, String address, String managerName) {

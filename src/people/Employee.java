@@ -12,7 +12,8 @@ import java.util.*;
 
 
 public class Employee extends People implements CheckInOutTracker {
-    String directReportingPerson =null;
+    int dRP=-1; ///directReportingPerson
+    int superiorID =-1;  ///-1 means not assigned
     public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
 
     private Hashtable<LocalDate, ArrayList<InOutTime>> inOutHistory = new Hashtable<>();
@@ -21,6 +22,7 @@ public class Employee extends People implements CheckInOutTracker {
 
     public Employee(String name, String gender, String DOB, String address) {
         super(name, gender, DOB, address);
+        dRP=super.getId();
     }
 
 
@@ -88,9 +90,16 @@ public class Employee extends People implements CheckInOutTracker {
     public Hashtable<LocalDate, ArrayList<InOutTime>> getInOutHistory() {
         return inOutHistory;
     }
-    public String getDirectReportingPerson(){
-        return this.directReportingPerson;
+    public int getSuperiorID(){
+        return this.superiorID;
     }
+    public String getSuperiorName(){
+        return Employee.allEmployee.get(getSuperiorID()).getName();
+    }
+    public int getDRP(){
+        return dRP;
+    }
+
 }
 
 

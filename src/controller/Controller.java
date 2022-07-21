@@ -1,10 +1,9 @@
 package controller;
 
+import Leave.AllLeaveTask;
 import people.*;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
-import java.time.chrono.MinguoDate;
 import java.util.Scanner;
 
 
@@ -16,10 +15,11 @@ public class Controller{
             System.out.println("------------------------");
             System.out.println("Main Menu");
             System.out.println("enter\n 0. exit 1. Attendance Menu " +
-                    " 2. ceo menu " +
-                    " 3. manager menu " +
-                    " 4. full time employee menu " +
-                    " 5. intern menu ");
+                    " 2. leave tracking menu" +
+                    " 4. ceo menu " +
+                    " 5. manager menu " +
+                    " 6. full time employee menu " +
+                    " 7. intern menu ");
             int option=scanner.nextInt();
             switch (option){
                 case 1:
@@ -27,29 +27,33 @@ public class Controller{
                     attendanceMenu();
                     break;
                 case 2:
+                    leaveTrackerMenu();
+                    break;
+                case 3:
+                    ////for future
+                    break;
+                case 4:
                     cEOMenu();
                     break;
-//                case 2:
-//                    cEOMenu();
-//                    break;
-                case 3:
+
+                case 5:
                     if(CEO.getCEO()==null){
                         System.out.println("CEO doesn't assigned, so manager can't exist");
                         break;
                     }
                     System.out.println("put manager ID");
                     int key=scanner.nextInt();
-                    if(CEO.getCEO().getAllManager().containsKey(key)){
-                        managerMenu(CEO.getCEO().getAllManager().get(key));
+                    if(CEO.getCEO().getAllManager().contains(key)){
+                        managerMenu((Manager) Employee.allEmployee.get(key));
                      }
                     else{
                         System.out.println("manager doesn't exist ");
                      }
                     break;
-                case 4:
+                case 6:
                     fTEmployeeMenu();
                     break;
-                case 5:
+                case 7:
                     internMenu();
                 default:
                     break;
@@ -141,6 +145,70 @@ public class Controller{
             System.out.println();
         }
     }
+
+    private void leaveTrackerMenu(){
+        System.out.println("\n|||||||||||||||||||||||||| <> LEAVE TRACKER MENU <> |||||||||||||||||\n");
+        while (true){
+            System.out.println("enter 0. exit" +
+                    "1. apply for leave" +
+                    "2. manage leave request by reporting person" +
+                    "3. check leave request status");
+            int choice=scanner.nextInt();
+            if(choice==0) {
+                System.out.println("exit");
+                return;
+            }
+            switch (choice){
+                case 1:
+                    System.out.println("enter employee id: ");
+                    int iD=scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("your name is "+ Employee.allEmployee.get(iD).getName());
+                    System.out.println("direct reporting person is : "+ Employee.allEmployee.get(Employee.allEmployee.get(iD).getDRP()).getName()+ "ID is "+Employee.allEmployee.get(iD).getDRP());;
+                    System.out.println("enter starting date in yyyy-mm-dd format");
+                    String fromDate=scanner.nextLine();
+                    System.out.println("enter ending date in yyyy-mm-dd format");
+                    String toDate=scanner.nextLine();
+                    System.out.println("enter reason");
+                    String reason=scanner.nextLine();
+                    int responseID=AllLeaveTask.requestForLeave(Employee.allEmployee.get(iD), fromDate, toDate, reason);
+                    if(responseID==0) {
+                        System.out.println("something went wrong");
+                    }
+                    else {
+                        System.out.println("your response id is "+ responseID);
+                    }
+
+
+
+                    break;
+                case 2:
+                    System.out.println("manage leave request menu enter id");
+                    int currentID=scanner.nextInt();
+
+                    AllLeaveTask.manageRequest(Employee.allEmployee.get(currentID));
+                    break;
+                case 3:
+                    System.out.println("manage check request |enter request id");
+
+                    int reqID=scanner.nextInt();
+
+                    char response=AllLeaveTask.checkStatus(reqID);
+                    if(response=='x') System.out.println("either id is wrong or your request is not approved");
+                    else if(response=='0') System.out.println("still pending"); //
+                    else if(response=='F') System.out.println("Rejected");
+                    else if(response=='T') System.out.println("Accepted");
+                    else System.out.println("error"+response);
+
+                    break;
+                default:
+                    System.out.println("incorrect response");;
+                    break;
+            }
+
+        }
+    }
+
     private void cEOMenu(){
         while (true){
             System.out.println("enter\n 0. back" +
@@ -208,7 +276,7 @@ public class Controller{
                     int currentID=scanner.nextInt();
                     if(Employee.allEmployee.containsKey(currentID)){
                         System.out.println();
-                        Util.printEmployeeDetailUsingID(Employee.allEmployee.get(currentID));
+                        Util.printEmployeeDetailUsingID(currentID);
 
                     }
 
@@ -250,7 +318,7 @@ public class Controller{
     }
  
     private void managerMenu(Manager manager){
-        Util.printEmployeeDetailUsingID(manager);
+        Util.printEmployeeDetailUsingID(manager.getSuperiorID());
         while (true){
             System.out.println("Enter \n 0. exit " +
                     " 1. view employee under this manager" +
@@ -265,22 +333,20 @@ public class Controller{
             int option=scanner.nextInt();
             if(option==0) return;
             switch (option){
-                case 0:
-                    return;
                 case 1:
-                   Util.printAllFTEmployee(manager);
-                   Util.printAllIntern(manager);
+                   Util.printAllFTEmployee(manager.fTEmployeeUnderThisManager);
+                   Util.printAllIntern(manager.internUnderThisManager);
                    break;
 
                 case 2:
                     System.out.print("Enter ID: ");
                     int currentID=scanner.nextInt();
-                    if(manager.internUnderThisManager.containsKey(currentID)){
+                    if(manager.internUnderThisManager.contains(currentID)){
                         System.out.println();
-                        Util.printEmployeeDetailUsingID(manager.internUnderThisManager.get(currentID));
+                        Util.printEmployeeDetailUsingID(currentID);
                     }
                     else if(manager.fTEmployeeUnderThisManager.contains(currentID)){
-                        Util.printEmployeeDetailUsingID(manager.fTEmployeeUnderThisManager.get(currentID));
+                        Util.printEmployeeDetailUsingID(currentID);
                     }
                     else {
                         System.out.println("either user doesn't exist or not comes under you");

@@ -2,14 +2,9 @@ package controller;
 
 import people.*;
 
-import javax.swing.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public final class Util {
     public static String[] getPeopleDetails(){
@@ -26,48 +21,51 @@ public final class Util {
         details[3]=scanner.nextLine();
         return details;
     }
-    public static void printAllManager(Hashtable<Integer, Manager> managerHashtable){
-        for(Map.Entry<Integer, Manager> managerEntry: managerHashtable.entrySet()){
-            System.out.println("Manager ID: "+ managerEntry.getValue().getId()+ " Manager Name: " + managerEntry.getValue().getName());
+    public static void printAllManager(Set<Integer> managerSet){
+        for(Integer iD: managerSet){
+            System.out.println("Manager ID: "+ iD+ " Manager Name: " + Employee.allEmployee.get(iD).getName()+ "Superior: "+ Employee.allEmployee.get(iD).getSuperiorName());
         }
     }
-    public static void printAllEmployee(Hashtable<Integer, Manager> managerHashtable){
-        for(Map.Entry<Integer, Manager> managerEntry: managerHashtable.entrySet()){
-            System.out.println("Manager ID: "+ managerEntry.getValue().getId()+ " Manager Name: " + managerEntry.getValue().getName());
-            Util.printAllFTEmployee(managerEntry.getValue());
-            Util.printAllIntern(managerEntry.getValue());
+    public static void printAllEmployee(Set<Integer> allManagerID){
+        for(int managerID: allManagerID){
+            System.out.println("Manager ID: "+ managerID+ " Manager Name: " + Employee.allEmployee.get(managerID).getName()+ "Superior: "+ Employee.allEmployee.get(managerID).getSuperiorName());
+            Util.printAllFTEmployee(((Manager) Employee.allEmployee.get(managerID)));
+            Util.printAllIntern(((Manager) Employee.allEmployee.get(managerID)));
         }
     }
-    public static void printAllFTEmployee(Hashtable<Integer, Manager> managerHashtable){
-        for(Map.Entry<Integer, Manager> managerEntry: managerHashtable.entrySet()){
-            System.out.println("Manager ID: "+ managerEntry.getValue().getId()+ " Manager Name: " + managerEntry.getValue().getName());
-            Util.printAllFTEmployee(managerEntry.getValue());
+    public static void printAllFTEmployee(Set<Integer> managerSet){
+        for(int iD: managerSet){
+//            System.out.println("FTEmployee ID: "+ iD+ " Name: " + Employee.allEmployee.get(iD).getName()+ "Superior: "+ Employee.allEmployee.get(iD).getSuperiorName());
+            Util.printAllFTEmployee((Manager) Employee.allEmployee.get(iD));
         }
     }
-    public static void printAllIntern(Hashtable<Integer, Manager> managerHashtable){
-        for(Map.Entry<Integer, Manager> managerEntry: managerHashtable.entrySet()){
-            System.out.println("Manager ID: "+ managerEntry.getValue().getId()+ " Manager Name: " + managerEntry.getValue().getName());
-            Util.printAllIntern(managerEntry.getValue());
-        }
+    public static void printAllIntern(Set<Integer> internSet){
+        for(int iD: internSet){
+            Util.printAllIntern((Manager) Employee.allEmployee.get(iD));
+         }
+        System.out.println();
     }
 
 
     public static void printAllFTEmployee(Manager manager){
-        System.out.println("fTEmployees in given list are: ");
-        for(Map.Entry<Integer, FTEmployee> ftEmployeeEntry : manager.fTEmployeeUnderThisManager.entrySet()){
-            System.out.println("fTEmployee ID: "+ ftEmployeeEntry.getValue().getId()+ " FTEmployee Name: " + ftEmployeeEntry.getValue().getName());
+        System.out.println("Manager ID: "+ manager.getId()+ " Manager Name: " + manager.getName()+ "Superior: "+ manager.getSuperiorName());
+        System.out.println("fTEmployees under manager are: ");
+        for(int iD : manager.fTEmployeeUnderThisManager){
+            System.out.println("fTEmployee ID: "+iD+ " FTEmployee Name: " + Employee.allEmployee.get(iD).getName()+ " Superior: "+ Employee.allEmployee.get(iD).getSuperiorName());
             System.out.println();
         }
     }
     public static void printAllIntern(Manager manager){
+        System.out.println("Manager ID: "+ manager.getId()+ " Manager Name: " + manager.getName()+ "Superior: "+ manager.getSuperiorName());
         System.out.println("Intern in given list are: ");
-        for(Map.Entry<Integer, Intern> internEntry: manager.internUnderThisManager.entrySet()){
-            System.out.println("Intern ID: "+ internEntry.getValue().getId()+ " Intern Name: " + internEntry.getValue().getName());
+        for(int iD : manager.internUnderThisManager){
+            System.out.println("Intern ID: "+ iD+ " Intern Name: " + Employee.allEmployee.get(iD).getName()+ "Superior: "+ Employee.allEmployee.get(iD).getSuperiorName());
         }
         System.out.println();
     }
-    public static void printEmployeeDetailUsingID(People people){
-        System.out.println("ID: " + people.getId()+ " name: " + people.getName()+ "  Direct Reporting Person: "+ ((Employee)people).getDirectReportingPerson());
+    public static void printEmployeeDetailUsingID(int iD){
+        Employee people=Employee.allEmployee.get(iD);
+        System.out.println("ID: " + people.getId()+ " name: " + people.getName()+ " Superior : "+ people.getSuperiorName());
 
     }
 

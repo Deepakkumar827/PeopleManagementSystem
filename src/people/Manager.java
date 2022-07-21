@@ -1,10 +1,15 @@
 package people;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Manager extends Employee {
-    public  Hashtable<Integer, FTEmployee> fTEmployeeUnderThisManager= new Hashtable<>(); //full time employee under this manager
-    public  Hashtable<Integer, Intern> internUnderThisManager=new Hashtable<>(); //// intern under this manager
+//    public  Hashtable<Integer, FTEmployee> fTEmployeeUnderThisManager= new Hashtable<>(); //full time employee under this manager
+    public Set<Integer> fTEmployeeUnderThisManager=new TreeSet<>();
+
+    public  Set<Integer> internUnderThisManager=new TreeSet<>(); //// intern under this manager
 
     protected Manager(String name, String gender, String DOB, String address) {
         super(name, gender, DOB, address);
@@ -13,28 +18,31 @@ public class Manager extends Employee {
 
 
     public boolean addFTEmployee(String name, String gender, String DOB, String address){
-        return addFTEmployee(new FTEmployee(name, gender, DOB, address,this.getId()));
+        return addFTEmployee(new FTEmployee(name, gender, DOB, address));
     }
     public boolean addIntern(String name, String gender, String DOB, String address){
-        return addIntern(new Intern(name, gender, DOB, address,this.getId()));
+        return addIntern(new Intern(name, gender, DOB, address));
     }
 
     public boolean addFTEmployee(FTEmployee ftEmployee){
-        ftEmployee.directReportingPerson =this.getName();
+        ftEmployee.superiorID =this.getId();
+        ftEmployee.dRP= this.getId();  ///for now superior id and drp is same
         Employee.allEmployee.put(ftEmployee.getId(), ftEmployee);
-        fTEmployeeUnderThisManager.put(ftEmployee.getId(), ftEmployee);
+        fTEmployeeUnderThisManager.add(ftEmployee.getId());
         return true;
     }
 
     public boolean addIntern(Intern intern){
-        intern.directReportingPerson =this.getName();
+        intern.superiorID =this.getId();
+        intern.dRP= this.getId();  ///for now superior id and drp is same
         Employee.allEmployee.put(intern.getId(), intern);
-        internUnderThisManager.put(intern.getId(), intern);
+        internUnderThisManager.add(intern.getId());
         return true;
     }
 
 
-   /* private boolean addEmployee(People people){
+   /*
+    private boolean addEmployee(People people){
         if(people.getClass().toString().equals(FTEmployee.class.toString())){
             People.allPeople.put(people.getId(), people);
             fTEmployeeUnderThisManager.put(people.getId(), people);
@@ -46,23 +54,23 @@ public class Manager extends Employee {
             return true;
         }
         else {
-            System.out.println("dont have features to add this types of employee");
+            System.out.println("don't have features to add this types of employee");
             return false;
         }
 
     }*/
 
     public    boolean deleteFTEmployee(int id){
-        if(fTEmployeeUnderThisManager.get(id)!=null){
-            return fTEmployeeUnderThisManager.remove(id)!=null && Employee.allEmployee.remove(id)!=null;
+        if(fTEmployeeUnderThisManager.contains(id)){
+            return fTEmployeeUnderThisManager.remove(id) && Employee.allEmployee.remove(id)!=null;
         }
 
         else return false;
     }
     public  boolean deleteIntern(int id){
         ///TODO: to decide the return type of this function
-        if(internUnderThisManager.get(id)!=null){
-            return internUnderThisManager.remove(id)!=null && Employee.allEmployee.remove(id)!=null;
+        if(internUnderThisManager.contains(id)){
+            return internUnderThisManager.remove(id) && Employee.allEmployee.remove(id)!=null;
         }
 
         else return false;
