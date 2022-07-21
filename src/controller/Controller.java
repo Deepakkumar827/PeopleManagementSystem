@@ -85,9 +85,14 @@ public class Controller{
                 case 1:
                     System.out.println("enter date time in yyyy-mm-ddThh:mm:ss format");
                     String inDateTimeString=scanner.next();
-
-                    ////TODO: use try catch
-                    LocalDateTime inDateTime=LocalDateTime.parse(inDateTimeString);
+                    LocalDateTime inDateTime;
+                    try{
+                        inDateTime=LocalDateTime.parse(inDateTimeString);
+                    }
+                    catch (Exception e){
+                        System.out.println(e.toString());
+                        break;
+                    }
                      if(currentEmployee.checkIn(inDateTime)){
                         System.out.println("success");
                     }
@@ -98,7 +103,14 @@ public class Controller{
                 case 2:
                     System.out.println("enter date time in yyyy-mm-ddThh:mm:ss format");
                     String outDateTimeString=scanner.next();
-                    LocalDateTime outDateTime=LocalDateTime.parse(outDateTimeString);
+                    LocalDateTime outDateTime;
+                    try {
+                        outDateTime=LocalDateTime.parse(outDateTimeString);
+
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
                     if(currentEmployee.checkOut(outDateTime)){
                         System.out.println("success");
                     }
