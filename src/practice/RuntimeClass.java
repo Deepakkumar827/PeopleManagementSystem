@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class RuntimeClass {
     static int count=0;
 
-    public static void main(String[] args) throws IOException {
+    public static void main1(String[] args) throws IOException {
         Runtime runtime=Runtime.getRuntime();
 
 

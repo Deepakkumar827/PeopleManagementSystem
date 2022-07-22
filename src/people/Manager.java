@@ -9,6 +9,7 @@ public class Manager extends Employee {
 //    public  Hashtable<Integer, FTEmployee> fTEmployeeUnderThisManager= new Hashtable<>(); //full time employee under this manager
     public Set<Integer> fTEmployeeUnderThisManager=new TreeSet<>();
 
+
     public  Set<Integer> internUnderThisManager=new TreeSet<>(); //// intern under this manager
 
     protected Manager(String name, String gender, String DOB, String address) {

@@ -22,7 +22,7 @@ public class Main {
     }
 
     public static void uploadInitialData() {
-        CEO.createCEO("Deepak kumar", "Male", "07.08.2000", "Bihar");
+        CEO.createCEO("CEO_NAME", "Male", "07.08.2000", "Bihar");
         CEO.createManager("fahim", "Male", "11.11.2006", "Pondicherry");
         CEO.createManager("Mauli", "Male", "12.11.2006", "Chennai");
         CEO.getCEO().getManager(2).addFTEmployee("ashish", "Male", "4.5.34", "kashmir");

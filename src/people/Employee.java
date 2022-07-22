@@ -14,6 +14,7 @@ import java.util.*;
 
 
 public class Employee extends People implements CheckInOutTracker {
+
     int dRP=-1; ///directReportingPerson
     int superiorID =-1;  ///-1 means not assigned
 

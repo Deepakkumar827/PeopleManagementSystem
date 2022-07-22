@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 
-public class Controller {
+public class Controller implements Cloneable{
     Scanner scanner = new Scanner(System.in);
 
     public void mainMenu() {
