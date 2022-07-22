@@ -31,7 +31,7 @@ public final class Util {
 
     public static void printAllEmployee(Set<Integer> allManagerID) {
         for (int managerID : allManagerID) {
-            System.out.println("Manager ID: " + managerID + " Manager Name: " + AllEmployeeData.allEmployee.get(managerID).getName() + "Superior: " + AllEmployeeData.allEmployee.get(managerID).getSuperiorName());
+//            System.out.println("Manager ID: " + managerID + " Manager Name: " + AllEmployeeData.allEmployee.get(managerID).getName() + "Superior: " + AllEmployeeData.allEmployee.get(managerID).getSuperiorName());
             Util.printAllFTEmployee(((Manager) AllEmployeeData.allEmployee.get(managerID)));
             Util.printAllIntern(((Manager) AllEmployeeData.allEmployee.get(managerID)));
         }

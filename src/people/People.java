@@ -8,11 +8,11 @@ public class People {
 
 
     static int count=0;  /// it is total people who have registered not total current people
-    private int id;
-    private String name;
-    private String gender;
-    private String DOB;
-    private String address;
+    private final int id;
+    private final String name;
+    private final String gender;
+    private final String DOB;
+    private final String address;
 
     public People(String name, String gender, String DOB, String address) {
 //        int curr=count+1;
@@ -70,19 +70,18 @@ public class People {
     public int totalCurrentPeople(){
         return AllEmployeeData.allEmployee.size();
     }
-    public void removePeople(int id){
-        People people= AllEmployeeData.allEmployee.get(id);
-        if(people==null) return;
-        if(people.getClass().toString().equals(Manager.class.toString())){
+    /*public void removePeople(int id) {
+        People people = AllEmployeeData.allEmployee.get(id);
+        if (people == null) return;
+        if (people.getClass().toString().equals(Manager.class.toString())) {
             CEO.getCEO().getAllManager().remove(id);
-        }
-        else if(people.getClass().toString().equals(Intern.class.toString())){
+        } else if (people.getClass().toString().equals(Intern.class.toString())) {
 
         }
 
 
         AllEmployeeData.allEmployee.remove(id);
-    }
+    }*/
 
 
 }

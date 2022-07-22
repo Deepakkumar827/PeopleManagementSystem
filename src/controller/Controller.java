@@ -91,7 +91,7 @@ public class Controller {
                     try {
                         inDateTime = LocalDateTime.parse(inDateTimeString);
                     } catch (Exception e) {
-                        System.out.println(e.toString());
+                        System.out.println(e);
                         break;
                     }
                     if (currentEmployee.checkIn(inDateTime)) {
@@ -154,13 +154,12 @@ public class Controller {
                 return;
             }
             switch (choice) {
-                case 1:
+                case 1 -> {
                     System.out.println("enter employee id: ");
                     int iD = scanner.nextInt();
                     scanner.nextLine();
                     System.out.println("your name is " + AllEmployeeData.allEmployee.get(iD).getName());
                     System.out.println("direct reporting person is : " + AllEmployeeData.allEmployee.get(AllEmployeeData.allEmployee.get(iD).getDRP()).getName() + "ID is " + AllEmployeeData.allEmployee.get(iD).getDRP());
-                    ;
                     System.out.println("enter starting date in yyyy-mm-dd format");
                     String fromDate = scanner.nextLine();
                     System.out.println("enter ending date in yyyy-mm-dd format");
@@ -173,32 +172,26 @@ public class Controller {
                     } else {
                         System.out.println("your response id is " + responseID);
                     }
-
-
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("manage leave request menu enter id");
                     int currentID = scanner.nextInt();
-
                     AllLeaveTask.manageRequest(AllEmployeeData.allEmployee.get(currentID));
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("manage check request |enter request id");
-
                     int reqID = scanner.nextInt();
-
                     char response = AllLeaveTask.checkStatus(reqID);
                     if (response == 'x') System.out.println("either id is wrong or your request is not approved");
                     else if (response == '0') System.out.println("still pending"); //
                     else if (response == 'F') System.out.println("Rejected");
                     else if (response == 'T') System.out.println("Accepted");
                     else System.out.println("error" + response);
-
-                    break;
-                default:
+                }
+                default -> {
                     System.out.println("incorrect response");
                     ;
-                    break;
+                }
             }
 
         }
@@ -324,8 +317,8 @@ public class Controller {
             if (option == 0) return;
             switch (option) {
                 case 1:
-                    Util.printAllFTEmployee(manager.fTEmployeeUnderThisManager);
-                    Util.printAllIntern(manager.internUnderThisManager);
+                    Util.printAllFTEmployee(manager);
+                    Util.printAllIntern(manager);
                     break;
 
                 case 2:
