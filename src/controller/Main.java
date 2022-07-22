@@ -15,12 +15,13 @@ public class Main {
 
         System.out.println(m.getClass().toString());*/
         uploadInitialData();
-        new Controller().mainMenu();;
+        new Controller().mainMenu();
+        ;
 
 
     }
 
-    public static void uploadInitialData(){
+    public static void uploadInitialData() {
         CEO.createCEO("Deepak kumar", "Male", "07.08.2000", "Bihar");
         CEO.createManager("fahim", "Male", "11.11.2006", "Pondicherry");
         CEO.createManager("Mauli", "Male", "12.11.2006", "Chennai");

@@ -18,6 +18,7 @@ public interface CheckInOutTracker {
 //            this.inTime=inTime;
 //        }
 //    }
+
     public boolean checkIn(LocalDateTime inTime);
     public boolean checkOut(LocalDateTime outTime);
     public int getTimeSpendOnADay(LocalDateTime date);

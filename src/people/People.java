@@ -2,7 +2,7 @@ package people;
 
 
 
-import java.util.HashMap;
+import allData.AllEmployeeData;
 
 public class People {
 
@@ -65,13 +65,13 @@ public class People {
     }
 
     public boolean deletePeople(int id){
-        return Employee.allEmployee.remove(id)!=null;
+        return AllEmployeeData.allEmployee.remove(id)!=null;
     }
     public int totalCurrentPeople(){
-        return Employee.allEmployee.size();
+        return AllEmployeeData.allEmployee.size();
     }
     public void removePeople(int id){
-        People people=Employee.allEmployee.get(id);
+        People people= AllEmployeeData.allEmployee.get(id);
         if(people==null) return;
         if(people.getClass().toString().equals(Manager.class.toString())){
             CEO.getCEO().getAllManager().remove(id);
@@ -81,7 +81,7 @@ public class People {
         }
 
 
-        Employee.allEmployee.remove(id);
+        AllEmployeeData.allEmployee.remove(id);
     }
 
 

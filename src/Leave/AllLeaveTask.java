@@ -1,10 +1,10 @@
 package leave;
 
+import allData.AllEmployeeData;
+import allData.LeaveTrackingData;
 import people.Employee;
 
-import javax.crypto.spec.PSource;
 import java.time.LocalDate;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -17,10 +17,6 @@ public final class AllLeaveTask {
     * one more way is to make some-changes in person object who is requesting*/
 
     static Scanner scanner=new Scanner(System.in);
-    static Hashtable<Integer, Queue<LeaveData>> pendingRequest=new Hashtable<>();  ////key is receiver's id
-//    static Hashtable<Integer, Hashtable<Integer, LeaveData>> rejectedRequest=new Hashtable<>(); //// first key is receiver's id, and second key is sender id
-//    static Hashtable<Integer, Hashtable<Integer, LeaveData>> acceptedRequest=new Hashtable<>();
-    static Hashtable<Integer, LeaveData> resolvedRequest=new Hashtable<>();
 
     public static int requestForLeave(Employee employee, String fromDate, String toDate, String reason){
 
@@ -29,8 +25,8 @@ public final class AllLeaveTask {
             if(employee==null || fromDate==null || toDate==null) return 0;
             LeaveData currentData=new LeaveData(employee.getId(), employee.getDRP(), LocalDate.parse(fromDate),LocalDate.now() ,  reason);
             currentData.requestID=++requestIDCounter;
-            if(pendingRequest.get(employee.getDRP())==null) pendingRequest.put(employee.getDRP(), new LinkedList<>());
-            pendingRequest.get(employee.getDRP()).add(currentData);
+            if(LeaveTrackingData.pendingRequest.get(employee.getDRP())==null) LeaveTrackingData.pendingRequest.put(employee.getDRP(), new LinkedList<>());
+            LeaveTrackingData.pendingRequest.get(employee.getDRP()).add(currentData);
             return requestIDCounter;
 
 
@@ -43,7 +39,7 @@ public final class AllLeaveTask {
     public static boolean manageRequest(Employee employee){
         ///////return means all request has been managed
 
-        Queue<LeaveData> requestQueue= pendingRequest.get(employee.getId());
+        Queue<LeaveData> requestQueue= LeaveTrackingData.pendingRequest.get(employee.getId());
         if(requestQueue==null) {
             System.out.println("no request");
             return false;
@@ -55,13 +51,13 @@ public final class AllLeaveTask {
                  System.out.println("some serious bug, need to be resolved");
                  return false;
              }
-            System.out.println("ID: "+request.fromID + " Name: "+ Employee.allEmployee.get(request.fromID).getName()+" from date: " + request.fromDate+ " to date: " +request.toDate+"time of sending: " + request.timeOfSending);
+            System.out.println("ID: "+request.fromID + " Name: "+ AllEmployeeData.allEmployee.get(request.fromID).getName()+" from date: " + request.fromDate+ " to date: " +request.toDate+"time of sending: " + request.timeOfSending);
             System.out.println("REASON: "+ request.reason);
             System.out.println("enter 1 for approve -1 for reject and 0 for exit");
             int response=scanner.nextInt();
             if(response==-1){
                 request.isApproved='F';
-                resolvedRequest.put(request.requestID, request);
+                LeaveTrackingData.resolvedRequest.put(request.requestID, request);
                 requestQueue.remove();
             }
             else if(response==0){
@@ -70,7 +66,7 @@ public final class AllLeaveTask {
             }
             else if(response==1){
                 request.isApproved='T';
-                resolvedRequest.put(request.requestID, request);
+                LeaveTrackingData.resolvedRequest.put(request.requestID, request);
                 requestQueue.remove();
             }
             else{
@@ -84,8 +80,8 @@ public final class AllLeaveTask {
     }
 
     public static char checkStatus(int requestID){
-        if(resolvedRequest.get(requestID)!=null){
-            return resolvedRequest.get(requestID).isApproved;
+        if(LeaveTrackingData.resolvedRequest.get(requestID)!=null){
+            return LeaveTrackingData.resolvedRequest.get(requestID).isApproved;
         }
 //        else if(pendingRequest.get(requestID)!=null) {
 //            return '0';  /////

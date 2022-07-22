@@ -1,5 +1,7 @@
 package people;
 
+import allData.AllEmployeeData;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,7 +16,6 @@ import java.util.*;
 public class Employee extends People implements CheckInOutTracker {
     int dRP=-1; ///directReportingPerson
     int superiorID =-1;  ///-1 means not assigned
-    public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
 
     private Hashtable<LocalDate, ArrayList<InOutTime>> inOutHistory = new Hashtable<>();
 
@@ -94,7 +95,7 @@ public class Employee extends People implements CheckInOutTracker {
         return this.superiorID;
     }
     public String getSuperiorName(){
-        return Employee.allEmployee.get(getSuperiorID()).getName();
+        return AllEmployeeData.allEmployee.get(getSuperiorID()).getName();
     }
     public int getDRP(){
         return dRP;

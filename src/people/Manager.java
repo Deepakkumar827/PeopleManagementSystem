@@ -1,7 +1,7 @@
 package people;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
+import allData.AllEmployeeData;
+
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -27,7 +27,7 @@ public class Manager extends Employee {
     public boolean addFTEmployee(FTEmployee ftEmployee){
         ftEmployee.superiorID =this.getId();
         ftEmployee.dRP= this.getId();  ///for now superior id and drp is same
-        Employee.allEmployee.put(ftEmployee.getId(), ftEmployee);
+        AllEmployeeData.allEmployee.put(ftEmployee.getId(), ftEmployee);
         fTEmployeeUnderThisManager.add(ftEmployee.getId());
         return true;
     }
@@ -35,7 +35,7 @@ public class Manager extends Employee {
     public boolean addIntern(Intern intern){
         intern.superiorID =this.getId();
         intern.dRP= this.getId();  ///for now superior id and drp is same
-        Employee.allEmployee.put(intern.getId(), intern);
+        AllEmployeeData.allEmployee.put(intern.getId(), intern);
         internUnderThisManager.add(intern.getId());
         return true;
     }
@@ -62,7 +62,7 @@ public class Manager extends Employee {
 
     public    boolean deleteFTEmployee(int id){
         if(fTEmployeeUnderThisManager.contains(id)){
-            return fTEmployeeUnderThisManager.remove(id) && Employee.allEmployee.remove(id)!=null;
+            return fTEmployeeUnderThisManager.remove(id) && AllEmployeeData.allEmployee.remove(id)!=null;
         }
 
         else return false;
@@ -70,10 +70,19 @@ public class Manager extends Employee {
     public  boolean deleteIntern(int id){
         ///TODO: to decide the return type of this function
         if(internUnderThisManager.contains(id)){
-            return internUnderThisManager.remove(id) && Employee.allEmployee.remove(id)!=null;
+            return internUnderThisManager.remove(id) && AllEmployeeData.allEmployee.remove(id)!=null;
         }
 
         else return false;
+    }
+    public boolean deleteEmployeeUnderThisManager(int id){
+        if(fTEmployeeUnderThisManager.contains(id)){
+            return fTEmployeeUnderThisManager.remove(id) && AllEmployeeData.allEmployee.remove(id)!=null;
+        }
+        else if(internUnderThisManager.contains(id)){
+            return internUnderThisManager.remove(id) && AllEmployeeData.allEmployee.remove(id)!=null;
+        }
+        return false;
     }
 
 }

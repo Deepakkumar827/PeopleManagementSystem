@@ -8,8 +8,8 @@ import java.util.Hashtable;
 public final class AllEmployeeData {
 
 
-    public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
     public static CEO currentCEO;
+    public static Hashtable<Integer, Employee> allEmployee=new Hashtable<>();
 
     private AllEmployeeData(){}
 }
