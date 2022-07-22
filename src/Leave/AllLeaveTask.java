@@ -1,4 +1,4 @@
-package Leave;
+package leave;
 
 import people.Employee;
 
@@ -50,7 +50,7 @@ public final class AllLeaveTask {
         }
          while (requestQueue.size()!=0){
              System.out.println(requestQueue.size() + " request left");
-             LeaveData request=requestQueue.peek();
+             leave.LeaveData request=requestQueue.peek();
              if(request.toID!= employee.getId()){
                  System.out.println("some serious bug, need to be resolved");
                  return false;

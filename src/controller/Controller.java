@@ -1,6 +1,6 @@
 package controller;
 
-import Leave.AllLeaveTask;
+import leave.AllLeaveTask;
 import people.*;
 
 import java.time.LocalDateTime;
@@ -171,7 +171,7 @@ public class Controller{
                     String toDate=scanner.nextLine();
                     System.out.println("enter reason");
                     String reason=scanner.nextLine();
-                    int responseID=AllLeaveTask.requestForLeave(Employee.allEmployee.get(iD), fromDate, toDate, reason);
+                    int responseID= AllLeaveTask.requestForLeave(Employee.allEmployee.get(iD), fromDate, toDate, reason);
                     if(responseID==0) {
                         System.out.println("something went wrong");
                     }

@@ -1,4 +1,4 @@
-package Leave;
+package leave;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
